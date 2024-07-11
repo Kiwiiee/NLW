@@ -1,3 +1,4 @@
+using Journey.Communication.Responses;
 using Journey.Exception;
 using Journey.Exception.ExceptionsBase;
 using Journey.Infrastructure;
@@ -7,7 +8,7 @@ namespace Journey.Application.UseCases.Trips.Delete;
 
 public class DeleteTripByIdUseCase
 {
-    public void Execute(Guid id)
+    public ResponseTripJson Execute(Guid id)
     {
         var dbContext = new JourneyDbContext();
         var trip = dbContext
@@ -22,5 +23,9 @@ public class DeleteTripByIdUseCase
 
         dbContext.Trips.Remove(trip);
         dbContext.SaveChanges();
+        return new ResponseTripJson
+        {
+            Message = ResourceErrorMessages.ACTION_SUCCESS,
+        };
     }
 }

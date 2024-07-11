@@ -6,4 +6,5 @@ public class ResponseTripJson
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public IList<ResponseActivityJson> Activities { get; set; } = [];
+    public string Message { get; set; } = string.Empty;
 }

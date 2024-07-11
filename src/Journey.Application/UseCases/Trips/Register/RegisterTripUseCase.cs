@@ -42,8 +42,8 @@ public class RegisterTripUseCase
         if (result.IsValid == false)
         {
             var errorMessages = result.Errors.Select(error => error.ErrorMessage).ToList();
-            
-            throw new ErrorOnValidationException(errorMessages);
+
+            throw new ErrorOnValidationException(errors: errorMessages);
         }
     }
 }

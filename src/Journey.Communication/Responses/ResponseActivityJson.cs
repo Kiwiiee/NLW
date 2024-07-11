@@ -7,4 +7,5 @@ public class ResponseActivityJson
     public string Name { get; set; } = string.Empty;
     public DateTime Date { get; set; }
     public ActivityStatus Status { get; set; }
+    public object Message { get; set; } = string.Empty;
 }

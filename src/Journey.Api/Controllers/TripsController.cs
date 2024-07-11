@@ -1,6 +1,6 @@
-using Journey.Application.UseCases.Trips.Activities.Complete;
-using Journey.Application.UseCases.Trips.Activities.Delete;
-using Journey.Application.UseCases.Trips.Activities.Register;
+using Journey.Application.UseCases.Activities.Complete;
+using Journey.Application.UseCases.Activities.Delete;
+using Journey.Application.UseCases.Activities.Register;
 using Journey.Application.UseCases.Trips.Delete;
 using Journey.Application.UseCases.Trips.GetAll;
 using Journey.Application.UseCases.Trips.GetById;
@@ -15,7 +15,6 @@ namespace Journey.Api.Controllers;
 [ApiController]
 public class TripsController : ControllerBase
 {
-    // POST
     [HttpPost]
     [ProducesResponseType(typeof(ResponseShortTripJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorsJson), StatusCodes.Status400BadRequest)]
@@ -25,8 +24,7 @@ public class TripsController : ControllerBase
          var response =  useCase.Execute(request);
          return Created( string.Empty, response);
      }
-    
-    //GET
+
     [HttpGet]
     [ProducesResponseType(typeof(ResponseTripsJson), StatusCodes.Status200OK)]
     public IActionResult GetAll()
@@ -36,7 +34,6 @@ public class TripsController : ControllerBase
         return Ok(response);
     }
     
-    //GET ID
     [HttpGet]
     [Route("{id}")]
     [ProducesResponseType(typeof(ResponseTripsJson), StatusCodes.Status200OK)]
@@ -47,8 +44,7 @@ public class TripsController : ControllerBase
         var response = useCase.Execute(id);
         return Ok(response);
     }
-    
-    //DELETE ID
+
     [HttpDelete]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -56,11 +52,10 @@ public class TripsController : ControllerBase
     public IActionResult Delete([FromRoute] Guid id)
     {
         var useCase = new DeleteTripByIdUseCase();
-        useCase.Execute(id);
-        return NoContent();
+        var response = useCase.Execute(id);
+        return Created(string.Empty, response);
     }
-    
-    //POST Activity
+
     [HttpPost]
     [Route("{tripId}/activity")]
     [ProducesResponseType(typeof(ResponseActivityJson), StatusCodes.Status201Created)]
@@ -73,27 +68,24 @@ public class TripsController : ControllerBase
         return Created(string.Empty, response);
     }
     
-    //PUT Activity
     [HttpPut]
-    [Route("{tripId}/activity/{activityId}/complete")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [Route("{tripID}/activity/{activityID}/complete")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorsJson), StatusCodes.Status404NotFound)]
-    public IActionResult CompleteActivity([FromRoute] Guid tripId, [FromRoute] Guid activityId)
+    public IActionResult CompleteActivity([FromRoute] Guid tripID, [FromRoute] Guid activityID)
     {
         var useCase = new CompleteActivityForTripUseCase();
-        useCase.Execute(tripId, activityId);
-        return NoContent();
+        var response = useCase.Execute(tripID, activityID);
+        return Created(string.Empty, response);
     }
-    
-    //DELETE Activity
-    [HttpPut]
-    [Route("{tripId}/activity/{activityId}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [HttpDelete]
+    [Route("{tripID}/activity/{activityID}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorsJson), StatusCodes.Status404NotFound)]
-    public IActionResult DeleteActivity([FromRoute] Guid tripId, [FromRoute] Guid activityId)
+    public IActionResult DeleteActivity([FromRoute] Guid tripID, [FromRoute] Guid activityID)
     {
         var useCase = new DeleteActivityForTripUseCase();
-        useCase.Execute(tripId, activityId);
-        return NoContent();
+        var response = useCase.Execute(tripID, activityID);
+        return Created(string.Empty, response);
     }
 }
